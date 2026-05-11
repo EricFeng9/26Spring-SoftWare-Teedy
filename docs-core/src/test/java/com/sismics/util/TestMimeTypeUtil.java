@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.Files;
 
 /**
  * Test of the utilities to check MIME types.
@@ -68,5 +69,35 @@ public class TestMimeTypeUtil extends BaseTest {
         // Detect MP4 files
         path = Paths.get(getResource(FILE_MP4).toURI());
         Assert.assertEquals(MimeType.VIDEO_MP4, MimeTypeUtil.guessMimeType(path, FILE_MP4));
+    }
+
+    @Test
+    public void testGetFileExtensionCoversKnownAndDefaultTypes() {
+        // ##Practice8 : 覆盖 getFileExtension 的显式分支和默认分支，提升 instruction 与 branch coverage。
+        Assert.assertEquals("zip", MimeTypeUtil.getFileExtension(MimeType.APPLICATION_ZIP));
+        Assert.assertEquals("gif", MimeTypeUtil.getFileExtension(MimeType.IMAGE_GIF));
+        Assert.assertEquals("jpg", MimeTypeUtil.getFileExtension(MimeType.IMAGE_JPEG));
+        Assert.assertEquals("png", MimeTypeUtil.getFileExtension(MimeType.IMAGE_PNG));
+        Assert.assertEquals("pdf", MimeTypeUtil.getFileExtension(MimeType.APPLICATION_PDF));
+        Assert.assertEquals("odt", MimeTypeUtil.getFileExtension(MimeType.OPEN_DOCUMENT_TEXT));
+        Assert.assertEquals("docx", MimeTypeUtil.getFileExtension(MimeType.OFFICE_DOCUMENT));
+        Assert.assertEquals("txt", MimeTypeUtil.getFileExtension(MimeType.TEXT_PLAIN));
+        Assert.assertEquals("csv", MimeTypeUtil.getFileExtension(MimeType.TEXT_CSV));
+        Assert.assertEquals("mp4", MimeTypeUtil.getFileExtension(MimeType.VIDEO_MP4));
+        Assert.assertEquals("webm", MimeTypeUtil.getFileExtension(MimeType.VIDEO_WEBM));
+        Assert.assertEquals("bin", MimeTypeUtil.getFileExtension("application/x-unknown"));
+    }
+
+    @Test
+    public void testGuessMimeTypeFallsBackToFilenameAndDefault() throws Exception {
+        // ##Practice8 : 构造系统通常无法识别的后缀，尽量稳定地覆盖 fallback 到文件名以及最终 DEFAULT 的分支。
+        Path tempFile = Files.createTempFile("practice8-mime", ".practice8unknown");
+        try {
+            Assert.assertEquals(MimeType.TEXT_PLAIN, MimeTypeUtil.guessMimeType(tempFile, "notes.txt"));
+            Assert.assertEquals(MimeType.DEFAULT, MimeTypeUtil.guessMimeType(tempFile, "unknown.practice8"));
+            Assert.assertEquals(MimeType.DEFAULT, MimeTypeUtil.guessMimeType(tempFile, null));
+        } finally {
+            Files.deleteIfExists(tempFile);
+        }
     }
 }

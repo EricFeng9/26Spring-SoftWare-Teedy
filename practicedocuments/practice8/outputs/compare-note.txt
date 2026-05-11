@@ -1,0 +1,5 @@
+1. 修改前（baseline）报告：
+- practicedocuments/practice8/outputs/original-jacoco/jacoco/index.html
+
+2. 修改后（after）报告：
+- practicedocuments/practice8/outputs/updated-jacoco/jacoco/index.html

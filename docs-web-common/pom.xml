@@ -13,6 +13,7 @@
   <artifactId>docs-web-common</artifactId>
   <packaging>jar</packaging>
   <name>Docs Web Commons</name>
+  <description>Shared web and REST support code for Teedy.</description>
 
   <dependencies>
     <!-- Dependencies to Docs -->
@@ -112,6 +113,14 @@
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <!-- ##Practice8 : 为 JUnit Platform 补上 Vintage 引擎，确保现有 JUnit4 风格测试在 docs-web-common 中能被实际执行。 -->
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <version>5.9.1</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
   
   <!-- Install test jar -->
@@ -130,4 +139,19 @@
       </plugin>
     </plugins>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.21.2</version>
+        <configuration>
+          <rulesets>
+            <ruleset>${project.parent.basedir}/customize-pmd-rules.xml</ruleset>
+          </rulesets>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>

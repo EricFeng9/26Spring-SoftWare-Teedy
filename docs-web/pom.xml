@@ -13,6 +13,7 @@
   <artifactId>docs-web</artifactId>
   <packaging>war</packaging>
   <name>Docs Web</name>
+  <description>Main web application module for Teedy.</description>
 
   <dependencies>
     <!-- Dependencies to Docs -->
@@ -143,7 +144,56 @@
         <directory>src/main/resources</directory>
       </resource>
     </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>rewrite-parent-site-module-links</id>
+            <phase>site</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <replaceregexp byline="true"
+                               match='href="(\./)?docs-core/index.html"'
+                               replace='href="../../docs-core/target/site/index.html"'>
+                  <fileset dir="${basedir}/../target/site" includes="*.html" />
+                </replaceregexp>
+                <replaceregexp byline="true"
+                               match='href="(\./)?docs-web-common/index.html"'
+                               replace='href="../../docs-web-common/target/site/index.html"'>
+                  <fileset dir="${basedir}/../target/site" includes="*.html" />
+                </replaceregexp>
+                <replaceregexp byline="true"
+                               match='href="(\./)?docs-web/index.html"'
+                               replace='href="../../docs-web/target/site/index.html"'>
+                  <fileset dir="${basedir}/../target/site" includes="*.html" />
+                </replaceregexp>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.21.2</version>
+        <configuration>
+          <rulesets>
+            <ruleset>${project.parent.basedir}/customize-pmd-rules.xml</ruleset>
+          </rulesets>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 
   <profiles>
     <!-- Development profile (active by default) -->
