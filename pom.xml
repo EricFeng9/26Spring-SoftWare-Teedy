@@ -9,6 +9,8 @@
   <version>1.12-SNAPSHOT</version>
 
   <name>Docs Parent</name>
+  <description>Teedy multi-module parent project.</description>
+  <url>https://github.com/sismics/docs</url>
 
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
@@ -122,6 +124,27 @@
         <artifactId>maven-site-plugin</artifactId>
         <version>3.12.1</version>
       </plugin>
+
+      <!-- PMD 插件配置 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.21.2</version>
+        <configuration>
+          <rulesets>
+            <ruleset>${maven.multiModuleProjectDirectory}/customize-pmd-rules.xml</ruleset>
+          </rulesets>
+          <printWarnings>true</printWarnings>
+          <failOnViolation>false</failOnViolation>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 <!-- 新增 <reporting> 部分 -->
@@ -131,6 +154,18 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
         <version>3.4.5</version>
+      </plugin>
+      <!-- PMD 报告插件 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.21.2</version>
+        <configuration>
+          <rulesets>
+            <ruleset>${maven.multiModuleProjectDirectory}/customize-pmd-rules.xml</ruleset>
+          </rulesets>
+          <aggregate>true</aggregate>
+        </configuration>
       </plugin>
     </plugins>
   </reporting>

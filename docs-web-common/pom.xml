@@ -13,6 +13,7 @@
   <artifactId>docs-web-common</artifactId>
   <packaging>jar</packaging>
   <name>Docs Web Commons</name>
+  <description>Shared web and REST support code for Teedy.</description>
 
   <dependencies>
     <!-- Dependencies to Docs -->
@@ -130,4 +131,19 @@
       </plugin>
     </plugins>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.21.2</version>
+        <configuration>
+          <rulesets>
+            <ruleset>${project.parent.basedir}/customize-pmd-rules.xml</ruleset>
+          </rulesets>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>
