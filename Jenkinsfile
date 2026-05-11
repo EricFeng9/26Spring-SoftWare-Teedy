@@ -33,19 +33,22 @@ pipeline {
 
         stage('PMD') {
             steps {
-                sh 'mvn pmd:check pmd:pmd'
+                // ##Practice9 : 多模块项目在单独执行 PMD 目标前先安装 reactor 产物，避免子模块去远端仓库错误解析本地 SNAPSHOT 依赖。
+                sh 'mvn -DskipTests install pmd:check pmd:pmd'
             }
         }
 
         stage('JaCoCo') {
             steps {
-                sh 'mvn jacoco:report'
+                // ##Practice9 : 先安装本地 SNAPSHOT 产物，再生成聚合覆盖率报告，保证跨模块依赖可被解析。
+                sh 'mvn -DskipTests install jacoco:report'
             }
         }
 
         stage('Site') {
             steps {
-                sh 'mvn site'
+                // ##Practice9 : 先安装本地 SNAPSHOT 产物，再生成 site 文档，避免 site 阶段对子模块依赖解析失败。
+                sh 'mvn -DskipTests install site'
             }
         }
 
