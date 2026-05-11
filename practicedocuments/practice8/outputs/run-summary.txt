@@ -1,0 +1,19 @@
+##Practice8 : 执行摘要
+
+Executed commands:
+1. mvn -pl docs-core -Dtest=TestMimeTypeUtil,TestResourceUtil test
+2. mvn -pl docs-web-common -Dtest=TestValidationUtil,TestValidationUtilExtended test
+3. mvn verify -Dsurefire.failIfNoSpecifiedTests=false
+
+Relevant passing tests:
+- com.sismics.util.TestMimeTypeUtil
+- com.sismics.util.TestResourceUtil
+- com.sismics.docs.rest.util.TestValidationUtil
+- com.sismics.docs.rest.util.TestValidationUtilExtended
+
+Generated report:
+- target/site/jacoco-aggregate/index.html
+
+Copied deliverables:
+- practicedocuments/practice8/outputs/updated-jacoco/jacoco-aggregate/
+- practicedocuments/practice8/outputs/test-reports/
